@@ -109,9 +109,9 @@ static void get_bat(char *buf, size_t len) {
 }
 
 int main(void) {
-    int fd = ssd1306_init("/dev/i2c-4");
+    int fd = ssd1306_init("/dev/i2c-2");
     if (fd < 0) {
-        fprintf(stderr, "FAILED! Board connected? (i2cdetect -y 4)\n");
+        fprintf(stderr, "FAILED! Board connected? (i2cdetect -y 2)\n");
         return EXIT_FAILURE;
     }
     g_fd = fd;
