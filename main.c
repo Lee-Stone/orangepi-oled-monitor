@@ -98,7 +98,7 @@ static void get_mem(char *buf, size_t len) {
     snprintf(buf, len, "Mem:%d%%", (int)((total - avail) * 100 / total));
 }
 
-/* 获取电池电压与电量（INA219，/dev/i2c-3） */
+/* 获取电池电压与电量（INA219，/dev/i2c-2） */
 static void get_bat(char *buf, size_t len) {
     int pct = ina219_battery_percent();
     if (pct < 0) {
@@ -109,16 +109,16 @@ static void get_bat(char *buf, size_t len) {
 }
 
 int main(void) {
-    int fd = ssd1306_init("/dev/i2c-2");
+    int fd = ssd1306_init("/dev/i2c-3");
     if (fd < 0) {
-        fprintf(stderr, "FAILED! Board connected? (i2cdetect -y 2)\n");
+        fprintf(stderr, "FAILED! Board connected? (i2cdetect -y 3)\n");
         return EXIT_FAILURE;
     }
     g_fd = fd;
 
     /* INA219 电池监测（未接则第 3 行显示 Bat:N/A） */
-    if (ina219_init("/dev/i2c-3") < 0)
-        fprintf(stderr, "INA219 not found on /dev/i2c-3 (i2cdetect -y 3)\n");
+    if (ina219_init("/dev/i2c-2") < 0)
+        fprintf(stderr, "INA219 not found on /dev/i2c-2 (i2cdetect -y 2)\n");
 
     /* LED 呼吸灯（wiringPi 硬件 PWM pwm3 → PI13） */
     if (led_init() < 0)
